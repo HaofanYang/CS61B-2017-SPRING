@@ -36,5 +36,7 @@ public class NBody{
 		double T = args[0];
 		double dt = args[1];
 		String fileName = args[2];
+		String Radius = readRadius(fileName);
+		
 	}
 }
