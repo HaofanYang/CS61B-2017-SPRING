@@ -52,4 +52,38 @@ public class Planet{
 		double r2 = this.calcDistance(p) * this.calcDistance(p);
 		return this.calcForceExertedBy(p) * (dy / r);
 	}
+	public double calcNetForceExertedByX(Planet[] allPlanets){
+		int i = 0;
+		double NetForce = 0;
+		while (i < allPlanets.length){
+			if (this.equals(allPlanets[i])){
+				i = i + 1;
+				continue;
+			}
+			NetForce = NetForce + this.calcForceExertedByX(allPlanets[i]);
+				i = i + 1;
+		}
+		return NetForce;
+	}
+
+	public double calcNetForceExertedByY(Planet[] allPlanets){
+		int i = 0;
+		double NetForce = 0;
+		while (i < allPlanets.length){
+			if (this.equals(allPlanets[i])){
+				i = i + 1;
+				continue;
+			}
+			NetForce = NetForce + this.calcForceExertedByY(allPlanets[i]);
+				i = i + 1;
+		}
+		return NetForce;
+	}
+
+	public void update(double dt, double fX, double fY){
+		this.xxVel = this.xxVel + dt * fX / this.mass;
+		this.yyVel = this.yyVel + dt * fY / this.mass;
+		this.xxPos = this.xxPos + this.xxVel * dt;
+		this.yyPos = this.yyPos + this.yyVel * dt;
+	}
 }
