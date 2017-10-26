@@ -26,12 +26,30 @@ public class Planet{
 		this.mass = p.mass;
 		this.imgFileName = p.imgFileName;
 	}
-	public static double calcForceExertedByX(Planet X, Planet Y){
-		double dx = X.xxPos - Y.xxPos;
-		double dy = X.yyPos - Y.yyPos;
-		double r = dx;
-		GravityForce = GravityConstant * X.mass * Y.mass(Math.pow(dx,2) + Math.pow(dy,2));
-		return 
+
+	public double calcDistance(Planet p){
+		double dx = p.xxPos - this.xxPos;
+		double dy = p.yyPos - this.yyPos;
+		return Math.pow((Math.pow(dx,2) + Math.pow(dy,2)),0.5);
 	}
-	
+
+	public double calcForceExertedBy(Planet p){
+		double r = this.calcDistance(p);
+		double r2 = r * r;
+		return GravityConstant * this.mass * p.mass / r2;
+	}
+
+	public double calcForceExertedByX(Planet p){
+		double dx = p.xxPos - this.xxPos;
+		double r = this.calcDistance(p);
+		double r2 = this.calcDistance(p) * this.calcDistance(p);
+		return this.calcForceExertedBy(p) * (dx / r);
+	}
+
+	public double calcForceExertedByY(Planet p){
+		double dy = p.yyPos - this.yyPos ;
+		double r = this.calcDistance(p);
+		double r2 = this.calcDistance(p) * this.calcDistance(p);
+		return this.calcForceExertedBy(p) * (dy / r);
+	}
 }
