@@ -13,7 +13,7 @@ public class Planet{
 		xxVel = xV;
 		yyVel = yV;
 		mass = m;
-		imgFileName = img;
+		imgFileName = "images/" + img;
 	}
 	//* 想一想如果你运行 Planet b = new Planet(a)，你到底希望它做什么？*／
 	//*	当然就是把a所有的参数传给b */
@@ -85,5 +85,9 @@ public class Planet{
 		this.yyVel = this.yyVel + dt * fY / this.mass;
 		this.xxPos = this.xxPos + this.xxVel * dt;
 		this.yyPos = this.yyPos + this.yyVel * dt;
+	}
+
+	public void draw(){
+		StdDraw.picture(this.xxPos, this.yyPos, this.imgFileName);
 	}
 }
