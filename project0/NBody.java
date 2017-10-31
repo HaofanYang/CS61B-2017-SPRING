@@ -38,7 +38,6 @@ public class NBody{
 		String fileName = args[2];
 		double Radius = readRadius(fileName);
 		double[] audio = StdAudio.read("audio/2001.mid");
-		StdAudio.play(audio);
 		StdDraw.setScale(Radius, -Radius);
 		StdDraw.picture(0,0,"images/starfield.jpg");
 		StdDraw.show(2);
