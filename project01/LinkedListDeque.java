@@ -28,7 +28,7 @@ public class LinkedListDeque<datatype>{
     /** a precious of sentinel is itself and so does next*/
     public LinkedListDeque(datatype i){
         sentinel = new StuffNode(null,null,null);
-        sentinel.next = new StuffNode(sentinel, i, sentinel.next);
+        sentinel.next = new StuffNode(sentinel, i, sentinel);
         sentinel.previous = sentinel.next;
         size = 1;
     }
@@ -37,13 +37,16 @@ public class LinkedListDeque<datatype>{
     /** add i at the front of the list */
     public void addFirst(datatype i){
         sentinel.next = new StuffNode(sentinel, i, sentinel.next);
+        sentinel.next.previous = sentinel.next;
         size = size + 1;
     }
 
     /** add i at the end of the list */
     public void addLast(datatype l){
         sentinel.previous = new StuffNode(sentinel.previous, l, sentinel);
+        sentinel.previous.previous.next = sentinel.previous;
         size = size + 1;
+
     }
 
     /** tell if a list is empty */
@@ -64,7 +67,7 @@ public class LinkedListDeque<datatype>{
         }
         StuffNode p = sentinel;
         p = p.next;
-        while (p.next != sentinel){
+        while (p != sentinel){
             System.out.print(p.item);
             System.out.print(" ");
             p = p.next;
@@ -78,6 +81,7 @@ public class LinkedListDeque<datatype>{
         }
         datatype result = sentinel.next.item;
         sentinel.next = sentinel.next.next;
+        sentinel.next.previous = sentinel;
         size = size - 1;
         return result;
     }
@@ -89,13 +93,14 @@ public class LinkedListDeque<datatype>{
         }
         datatype result = sentinel.previous.item;
         sentinel.previous = sentinel.previous.previous;
+        sentinel.previous.next = sentinel;
         size = size - 1;
         return result;
     }
 
     /** return ith value of the queue */
     public datatype get(int index){
-        if (index > size - 1){
+        if (index > (size - 1)){
             return null;
         }
         StuffNode q = sentinel;
@@ -103,12 +108,13 @@ public class LinkedListDeque<datatype>{
         int count = 0;
         while (count < index){
             q = q.next;
+            count = count + 1;
         }
         return q.item;
     }
 
     public datatype getRecursive(int index){
-        if (index > size - 1){
+        if (index > (size - 1)){
             return null;
         }
         LinkedListDeque<datatype> p = this;
@@ -118,5 +124,16 @@ public class LinkedListDeque<datatype>{
         p.sentinel = p.sentinel.next;
         return p.getRecursive(index - 1);
 
+    }
+    public static void main(String[] args){
+        LinkedListDeque<Integer> l = new LinkedListDeque<Integer>();
+
+        l.addFirst(5);
+        l.addLast(6);
+        l.removeFirst();
+        l.removeLast();
+        //l.removeFirst();
+        l.printDeque();
+        System.out.println(l.size());
     }
 }

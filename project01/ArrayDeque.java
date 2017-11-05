@@ -1,25 +1,11 @@
-Public class LinkedListDeque<datatype>{
+Public class ArrayDeque<datatype>{
 
-
-    /** StuffNode is the actual core data */
-    public static class StuffNode{
-        public StuffNode previous;
-        public datatype item;
-        public StuffNode next;
-
-        public void StuffNode(StuffNode p, datatype i, StuffNode n){
-            previous = p;
-            item = i;
-            next = n;
-        }
-    }
-
-    private StuffNode sentinel;
-    private int size();
+    private datatype[] sentinel;
+    private int size;
 
     /** construct an empty list*/
-    public void LinkedListDeque(){
-        sentinel = new StuffNode(null, null, null);
+    public void ArrayDeque(){
+        sentinel = new ;
         sentinel.next = sentinel;
         sentinel.previous = sentinel.next;
         size = 0;
@@ -63,11 +49,11 @@ Public class LinkedListDeque<datatype>{
             return;
         }
         LinkedListDeque p = sentinel;
-        p = p.next;
+        p.sentinel = p.sentinel.next;
         while (p.next != sentinel){
-            System.out.print(p.item);
+            System.out.print(p.sentinel.item);
             System.out.print(" ");
-            p = p.next;
+            p.sentinel = p.sentinel.next;
         }
     }
 
