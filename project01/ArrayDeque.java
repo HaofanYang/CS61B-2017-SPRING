@@ -1,6 +1,6 @@
 Public class ArrayDeque<datatype>{
 
-    private datatype[] sentinel;
+    private datatype[3] sentinel;
     private int size;
 
     /** construct an empty list*/
@@ -12,7 +12,7 @@ Public class ArrayDeque<datatype>{
     }
 
     /** a precious of sentinel is itself and so does next*/
-    public void LinkedListDeque(datatype i){
+    public void ArrayDeque(datatype i){
         sentinel = new StuffNode(null, null, null);
         sentinel.next = new StuffNode(sentinel, i, sentinel.next);
         sentinel.previous = sentinel.next;
@@ -48,7 +48,7 @@ Public class ArrayDeque<datatype>{
             System.out.println("the queue is empty");
             return;
         }
-        LinkedListDeque p = sentinel;
+        ArrayDeque p = sentinel;
         p.sentinel = p.sentinel.next;
         while (p.next != sentinel){
             System.out.print(p.sentinel.item);
