@@ -1,24 +1,18 @@
 
 public class Test{
 	public static void main(String[] args){
-		ArrayDeque<String> a = new ArrayDeque<>();
-		/*
-		System.out.println(a.size());
-		System.out.println(a.nextFirst);
-		System.out.println(a.nextLast);
-		a.addFirst("a");
-		System.out.println(a.nextFirst);
-		System.out.println(a.nextLast);
-		System.out.println(a.size());
-		*/
-	
-		a.addFirst("c");
-		a.addLast("b");
-		a.addLast("a");
-		a.addLast("a");
-		a.addLast("a");
-		a.addFirst("a");
-		a.addLast("fuck you");
+		ArrayDeque<Integer> a = new ArrayDeque<>();
+		int count = 0;
+		while (count < 1000){
+			a.addFirst(count);
+			a.addLast(count);
+			count += 1;
+		}
+		while (count > 500){
+			a.removeFirst();
+			a.removeLast();
+			count -= 1;
+		}
 
 		a.printDeque();
 		System.out.println(" ");
@@ -28,6 +22,7 @@ public class Test{
 		System.out.println(a.nextLast);
 		System.out.print("size = ");
 		System.out.println(a.size());
-
+		System.out.print("efficiency= ");
+		System.out.println(a.get(498));
 	}
 }

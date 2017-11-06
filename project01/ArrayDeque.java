@@ -3,6 +3,8 @@ public class ArrayDeque<datatype>{
     /* 
     Circular structure, namely we start adding items from the middle of an array
 
+
+
     e.g.
         nextFirst
            | nextLast
@@ -10,8 +12,12 @@ public class ArrayDeque<datatype>{
      0 1 2 3 4 5 6
     [0,0,0,0,0,0,0]  (this is a empty list)
     size = 0
-    nextFirst = 3 (this is the index of the array where you add an item by using 'addFirst')
+    nextFirst = 3 
     nextLast = 4
+
+
+
+
 
     if we implement addFirst(5), we will get：
       nextFist
@@ -65,16 +71,75 @@ public class ArrayDeque<datatype>{
         }
         return p;
     }
+    /*
+    resize an array
 
-    /** TODO consider resizing and circular*/
+
+    OLD ONE:
+
+      nextFirst
+       | nextLast
+       | |
+     0 1 2 3 4 5 6
+    [6,7,1,2,3,4,5]
+
+
+    NEW ONE:
+
+     nextLast     nextFirst
+         |           |
+         |           |
+     0 1 2 3 4 5 6 7 8 9 10 11 12 13
+    [6,7,0,0,0,0,0,0,0,1,2 ,3 ,4 ,5]
+
+    */
+    private void resizing(){
+        datatype[] a = (datatype[]) new Object[size * 2];
+        System.arraycopy(items, 0, a, 0, positionMinus(nextLast) + 1);
+        int sizeIncreased = a.length - size;
+        if (nextFirst == (size - 1) ){
+            System.arraycopy(items, positionPlus(nextFirst), a, nextFirst + sizeIncreased + 1, 0 );
+        }else{
+             System.arraycopy(items, positionPlus(nextFirst), a, nextFirst + sizeIncreased + 1, size - positionPlus(nextFirst) );
+        }
+        nextLast = positionMinus(nextLast) + 1;
+        nextFirst = nextFirst + sizeIncreased;
+        items = a;
+    }
+
+    private void shrink(){
+        datatype[] a = (datatype[]) new Object[size / 2];
+        int sizeDecreased = items.length - a.length;
+        System.arraycopy(items, 0, a, 0, positionMinus(nextLast) + 1);
+        if (nextFirst == (size - 1) ){
+            System.arraycopy(items, positionPlus(nextFirst), a, nextFirst - sizeDecreased + 1, 0 );
+        }else{
+             System.arraycopy(items, positionPlus(nextFirst), a, nextFirst - sizeDecreased + 1, size - positionPlus(nextFirst) );
+        }
+        nextLast = positionMinus(nextLast) + 1;
+        nextFirst = nextFirst - sizeDecreased;
+        items = a;
+    }
+
+    public double efficiency(){
+        return (double) size / (double) items.length;
+    }
+
+    /** Add an item at the front */
     public void addFirst(datatype i){
+        if (size == items.length){
+            resizing();
+        }
         items[nextFirst] = i;
         size += 1;
         nextFirst = positionMinus(nextFirst);
     }
 
-    /** TODO consider circular data structure*/
+    /** Add an item at the end */
     public void addLast(datatype l){
+        if (size == items.length){
+            resizing();
+        }
         items[nextLast] = l;
         size += 1;
         nextLast = positionPlus(nextLast);
@@ -91,12 +156,17 @@ public class ArrayDeque<datatype>{
     }
 
     /** Print out the Deque */
-    /** TODO boundary case!!! when the array is full */
     public void printDeque(){
-        int start = positionPlus(nextFirst);
-        int end = positionMinus(nextLast);
-        int count = start;
-        while (count != end){
+        if (size == 0){
+            System.out.println("Empty array");
+            return;
+        }
+        int count = positionPlus(nextFirst);
+        /* to solve the nasty boundary case, we print out the first item outside the loop */
+        System.out.print(items[count]);
+        System.out.print(" ");
+        count = positionPlus(count);
+        while (count != nextLast){
             System.out.print(items[count]);
             System.out.print(" ");
             count = positionPlus(count);
@@ -105,7 +175,10 @@ public class ArrayDeque<datatype>{
 
     /** remove the first item */
     public datatype removeFirst(){
-        nextFirst = positionMinus(nextFirst);
+        if (efficiency() < 0.25){
+            shrink();
+        }
+        nextFirst = positionPlus(nextFirst);
         datatype result = items[nextFirst];
         items[nextFirst] = null;
         size -= 1;
@@ -114,16 +187,24 @@ public class ArrayDeque<datatype>{
 
     /** remove the last item */
     public datatype removeLast(){
+        if (efficiency() < 0.25){
+            shrink();
+        }
         nextLast = positionMinus(nextLast);
         datatype result = items[nextLast];
         items[nextLast] = null;
+        size -= 1;
         return result;
     }
 
     /** TODO */
     public datatype get(int index){
-        return null;
+        int firstIndex = positionPlus(nextFirst);
+        /* number of elements from the first one to the end */
+        int numOfRem = (items.length - firstIndex);
+        if (index + 1 > numOfRem){
+            return items[index - numOfRem];
+        }
+        return items[firstIndex + index];
     }
-
-
 }
