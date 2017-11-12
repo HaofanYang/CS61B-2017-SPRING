@@ -125,15 +125,4 @@ public class LinkedListDeque<datatype>{
         return p.getRecursive(index - 1);
 
     }
-    public static void main(String[] args){
-        LinkedListDeque<Integer> l = new LinkedListDeque<Integer>();
-
-        l.addFirst(5);
-        l.addLast(6);
-        l.removeFirst();
-        l.removeLast();
-        //l.removeFirst();
-        l.printDeque();
-        System.out.println(l.size());
-    }
 }
